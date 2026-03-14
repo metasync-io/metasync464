@@ -11,7 +11,6 @@ namespace Skeleton {
         INVERSE_MIDDLE
     };
 
-    // Enum representing RuneScape custom value types
     enum class ValueType {
         STANDARD,
         A,
@@ -19,7 +18,6 @@ namespace Skeleton {
         S
     };
 
-    // Enum for buffer access type (bit/byte)
     enum class AccessType {
         BYTE_ACCESS,
         BIT_ACCESS
@@ -29,7 +27,6 @@ namespace Skeleton {
         NONE, BYTE, SHORT
     };
 
-    // Bit masks
     static constexpr std::array<int32_t, 33> BIT_MASK = {
         0, 0x1, 0x3, 0x7, 0xf, 0x1f, 0x3f, 0x7f, 0xff,
         0x1ff, 0x3ff, 0x7ff, 0xfff, 0x1fff, 0x3fff, 0x7fff, 0xffff,
@@ -43,6 +40,7 @@ namespace Skeleton {
     class StreamBuffer
     {
     public:
+
         StreamBuffer();
         StreamBuffer(int32_t size);
         StreamBuffer(const int8_t* data, int32_t length);
@@ -50,6 +48,7 @@ namespace Skeleton {
         void SetAccessType(AccessType type);
 
         void Clear();
+
         int32_t Position() const { return m_Pos; }
         const AccessType GetAccessType() const { return m_AccessType; }
         const int32_t GetBitPosition() const { return m_BitPosition; }
@@ -57,7 +56,6 @@ namespace Skeleton {
         const int32_t Remaining() const { return m_Buffer.size() - m_Pos; }
         const std::vector<int8_t>& Data() const { return m_Buffer; }
 
-        // Read operations
         int32_t ReadByte(bool isSigned, ValueType type);
         int32_t ReadByte() { return ReadByte(true, ValueType::STANDARD); }
         int32_t ReadByte(bool isSigned) { return ReadByte(isSigned, ValueType::STANDARD); }
@@ -88,11 +86,10 @@ namespace Skeleton {
 
         std::string ReadString();
 
-        // Write operations
         void WriteByte(int32_t value, ValueType type);
         void WriteByte(int32_t value) { WriteByte(value, ValueType::STANDARD); }
         void WriteBytes(const StreamBuffer& other);
-        
+
         void WriteShort(int32_t value, ValueType type, ByteOrder order);
         void WriteShort(int32_t value) { WriteShort(value, ValueType::STANDARD, ByteOrder::BIG); }
         void WriteShort(int32_t value, ValueType type) { WriteShort(value, type, ByteOrder::BIG); }
@@ -118,7 +115,16 @@ namespace Skeleton {
 
         void WriteFrameSizeShort(int32_t size);
         void WriteFrameSizeByte(int32_t size);
+
+        void WriteTriByte(int32_t value);
+        void WriteSmart(int32_t value);
+        void WriteSignedSmart(int32_t value);
+        void WriteReverse(const int8_t* data, int32_t offset, int32_t length);
+        void WriteReverseA(const int8_t* data, int32_t offset, int32_t length);
+        void Skip(int32_t count);
+
     private:
+
         AccessType m_AccessType = AccessType::BYTE_ACCESS;
         int32_t m_BitPosition = 0;
         int32_t m_Pos = 0;
@@ -126,5 +132,6 @@ namespace Skeleton {
         VariableHeaderSize m_HeaderSize = VariableHeaderSize::NONE;
 
         std::vector<int8_t> m_Buffer;
+
     };
 }

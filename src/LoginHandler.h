@@ -1,12 +1,13 @@
 #pragma once
 #include "epch.h"
 #include "StreamBuffer.h"
+#include <vector>
 
 namespace Skeleton {
 
     class Client;
 
-    class LoginHandler 
+    class LoginHandler
     {
     public:
         void Process(StreamBuffer& inStream, std::shared_ptr<Client> client);
@@ -14,6 +15,8 @@ namespace Skeleton {
     private:
         void HandleConnectedStage(StreamBuffer& inStream, std::shared_ptr<Client> client);
         void HandleLoggingInStage(StreamBuffer& inStream, std::shared_ptr<Client> client);
+        void HandleUpdateServerStage(StreamBuffer& inStream, std::shared_ptr<Client> client);
+        std::vector<uint8_t> DecryptRSA(const std::vector<uint8_t>& encrypted);
     };
 
     namespace LoginResponse

@@ -17,8 +17,8 @@ namespace Skeleton {
 	};
 }
 
-// Log macros
 #define LOG_CRITICAL(...)      ::Skeleton::Log::GetLogger()->critical(__VA_ARGS__)
 #define LOG_ERROR(...)         ::Skeleton::Log::GetLogger()->error(__VA_ARGS__)
 #define LOG_WARN(...)          ::Skeleton::Log::GetLogger()->warn(__VA_ARGS__)
 #define LOG_INFO(...)          ::Skeleton::Log::GetLogger()->info(__VA_ARGS__)
+#define LOG_DEBUG(...)         ::Skeleton::Log::GetLogger()->debug(__VA_ARGS__)

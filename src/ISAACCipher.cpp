@@ -1,7 +1,7 @@
 #include "epch.h"
 #include "ISAACCipher.h"
 
-ISAACCipher::ISAACCipher(const uint32_t ai[4]) 
+ISAACCipher::ISAACCipher(const uint32_t ai[4])
 {
     std::fill_n(m_KeySetArray, SIZE, 0);
     std::fill_n(m_CryptArray, SIZE, 0);
@@ -12,20 +12,18 @@ ISAACCipher::ISAACCipher(const uint32_t ai[4])
     InitializeKeySet();
 }
 
-uint32_t ISAACCipher::GetNextKey() 
+uint32_t ISAACCipher::GetNextKey()
 {
-    if (m_KeyArrayIdx-- == 0) {
-        GenerateNextKeySet();
-        m_KeyArrayIdx = 255;
-    }
-    return m_KeySetArray[m_KeyArrayIdx];
+
+    return 0;
+
 }
 
-void ISAACCipher::GenerateNextKeySet() 
+void ISAACCipher::GenerateNextKeySet()
 {
     m_CryptVar2 += ++m_CryptVar3;
 
-    for (int i = 0; i < SIZE; ++i) 
+    for (int i = 0; i < SIZE; ++i)
     {
         uint32_t x = m_CryptArray[i];
         switch (i & 3) {
@@ -42,7 +40,7 @@ void ISAACCipher::GenerateNextKeySet()
     }
 }
 
-void ISAACCipher::InitializeKeySet() 
+void ISAACCipher::InitializeKeySet()
 {
     constexpr uint32_t GOLDEN_RATIO = 0x9e3779b9;
     uint32_t a = GOLDEN_RATIO, b = GOLDEN_RATIO, c = GOLDEN_RATIO, d = GOLDEN_RATIO;
@@ -62,7 +60,7 @@ void ISAACCipher::InitializeKeySet()
     for (int i = 0; i < 4; ++i)
         mix();
 
-    for (int i = 0; i < SIZE; i += 8) 
+    for (int i = 0; i < SIZE; i += 8)
     {
         a += m_KeySetArray[i];     b += m_KeySetArray[i + 1];
         c += m_KeySetArray[i + 2]; d += m_KeySetArray[i + 3];
@@ -75,7 +73,7 @@ void ISAACCipher::InitializeKeySet()
         m_CryptArray[i + 6] = g; m_CryptArray[i + 7] = h;
     }
 
-    for (int i = 0; i < SIZE; i += 8) 
+    for (int i = 0; i < SIZE; i += 8)
     {
         a += m_CryptArray[i];     b += m_CryptArray[i + 1];
         c += m_CryptArray[i + 2]; d += m_CryptArray[i + 3];
